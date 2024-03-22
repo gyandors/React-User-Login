@@ -1,0 +1,15 @@
+.card {
+  width: 30%;
+  min-width: 334px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 1px 1px 9px #00224d;
+}
+
+@media (max-width: 380px) {
+  .card {
+    width: 80%;
+    min-width: auto;
+  }
+}

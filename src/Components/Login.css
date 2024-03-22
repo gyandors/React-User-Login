@@ -1,0 +1,45 @@
+.username-control,
+.password-control {
+  margin-bottom: 10px;
+}
+
+.username-control label,
+.password-control label {
+  display: block;
+  width: fit-content;
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+
+.username-control input,
+.password-control input {
+  height: 22px;
+  width: 80%;
+  padding: 3px;
+  font-size: medium;
+  border: 1px solid #00224d;
+  border-radius: 5px;
+}
+.username-control input:focus,
+.password-control input:focus {
+  outline: none;
+  background-color: #caddf5;
+  box-shadow: 1px 1px 5px #00224d;
+}
+
+.login-btn {
+  cursor: pointer;
+  padding: 5px;
+  background-color: #00224d;
+  color: white;
+  font-size: inherit;
+  font-weight: 600;
+  border: 1px solid;
+  border-radius: 5px;
+}
+.login-btn:hover,
+.login-btn:focus {
+  outline: none;
+  box-shadow: 0 1px 8px #00224d;
+  transform: translateY(-2px);
+}
