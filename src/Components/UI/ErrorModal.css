@@ -1,0 +1,41 @@
+.backdrop {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: #0000008a;
+  z-index: 10;
+}
+
+.error-modal {
+  position: fixed;
+  background-color: white;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 100;
+}
+
+.error-header {
+  border-radius: 12px 12px 0px 0px;
+  padding: 1rem;
+  background-color: #00224d;
+}
+
+.error-header h2 {
+  color: white;
+}
+
+.error-modal p {
+  padding: 20px;
+}
+.error-footer button {
+  float: right;
+  cursor: pointer;
+  padding: 7px 12px;
+  margin: 5px;
+  font-weight: bold;
+  color: white;
+  background-color: #00224d;
+  border: 1px solid;
+  border-radius: 5px;
+}

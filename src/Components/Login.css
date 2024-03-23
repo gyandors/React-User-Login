@@ -1,3 +1,8 @@
+.login-form {
+  padding: 20px;
+  margin: 30px auto;
+}
+
 .username-control,
 .password-control {
   margin-bottom: 10px;
