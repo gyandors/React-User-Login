@@ -4,12 +4,14 @@
 }
 
 .username-control,
-.password-control {
+.password-control,
+.college-control {
   margin-bottom: 10px;
 }
 
 .username-control label,
-.password-control label {
+.password-control label,
+.college-control label {
   display: block;
   width: fit-content;
   margin-bottom: 3px;
@@ -17,7 +19,8 @@
 }
 
 .username-control input,
-.password-control input {
+.password-control input,
+.college-control input {
   height: 22px;
   width: 80%;
   padding: 3px;
@@ -26,7 +29,8 @@
   border-radius: 5px;
 }
 .username-control input:focus,
-.password-control input:focus {
+.password-control input:focus,
+.college-control input:focus {
   outline: none;
   background-color: #caddf5;
   box-shadow: 1px 1px 5px #00224d;

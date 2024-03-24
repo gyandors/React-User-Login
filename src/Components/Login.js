@@ -8,33 +8,38 @@ export default function Login(props) {
 
   const username = useRef('');
   const password = useRef('');
+  const college = useRef('');
+  const loginButton = useRef();
 
   function handleSubmit(event) {
     event.preventDefault();
-    const usernameInput = username.current.value;
-    const passwordInput = password.current.value;
+    console.log(loginButton);
+    const enteredUsername = username.current.value;
+    const enteredPassword = password.current.value;
+    const enteredCollege = college.current.value;
     if (
-      usernameInput.trim().length === 0 ||
-      passwordInput.trim().length === 0
+      enteredUsername.trim().length === 0 ||
+      enteredPassword.trim().length === 0 ||
+      enteredCollege.trim().length === 0
     ) {
       setValid({
         title: 'Invalid input',
         message: 'Please enter username and password',
       });
       return;
-    } else if (!usernameInput.includes('@')) {
+    } else if (!enteredUsername.includes('@')) {
       setValid({
         title: 'Invalid username',
         message: 'Username must be Email',
       });
       return;
-    } else if (passwordInput.trim().length < 6) {
+    } else if (enteredPassword.trim().length < 6) {
       setValid({
         title: 'Invalid password',
         message: 'Length of password should be minimum 6',
       });
       return;
-    } else props.onLogin();
+    } else props.onLogin(enteredUsername, enteredPassword);
   }
 
   function handleValid() {
@@ -70,7 +75,16 @@ export default function Login(props) {
               ref={password}
             />
           </div>
-          <button className="login-btn" type="submit">
+          <div className="college-control">
+            <label htmlFor="college">College</label>
+            <input
+              type="text"
+              id="college"
+              placeholder="Collage name"
+              ref={college}
+            />
+          </div>
+          <button className="login-btn" type="submit" ref={loginButton}>
             Login
           </button>
         </form>
