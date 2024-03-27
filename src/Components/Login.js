@@ -1,40 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import Card from './UI/Card';
 import './Login.css';
 
+function usernameReducer(state, action) {
+  switch (action.type) {
+    case 'USER_NAME':
+      return { value: action.value, isValid: action.value.includes('@') };
+
+    case 'USER_NAME_BLUR':
+      return { value: state.value, isValid: state.value.includes('@') };
+
+    default:
+      return { value: '', isValid: false };
+  }
+}
+
+function passwordReducer(state, action) {
+  switch (action.type) {
+    case 'PASSWORD':
+      return { value: action.value, isValid: action.value.trim().length > 6 };
+
+    case 'PASSWORD_BLUR':
+      return { value: state.value, isValid: state.value.trim().length > 6 };
+
+    default:
+      return { value: '', isValid: false };
+  }
+}
+
 export default function Login(props) {
-  const [enteredUsername, setEnteredUsername] = useState('');
-  const [enteredPassword, setEnteredPassword] = useState('');
-  const [usernameIsValid, setUsernameIsValid] = useState();
-  const [passwordIsValid, setPasswordIsValid] = useState();
+  const [usernameState, usernameDispatch] = useReducer(usernameReducer, {
+    value: '',
+    isValid: null,
+  });
+
+  const [passwordState, passwordDispatch] = useReducer(passwordReducer, {
+    value: '',
+    isValid: null,
+  });
+
+  // const [enteredUsername, setEnteredUsername] = useState('');
+  // const [usernameIsValid, setUsernameIsValid] = useState();
+  // const [enteredPassword, setEnteredPassword] = useState('');
+  // const [passwordIsValid, setPasswordIsValid] = useState();
   const [valid, setValid] = useState();
 
+  // useEffect(() => {
+  //   const clearTime = setTimeout(() => {
+  //     console.log('Effect start');
+  //     setValid(
+  //       enteredUsername.includes('@') && enteredPassword.trim().length > 6
+  //     );
+  //   }, 1000);
+
+  //   return () => {
+  //     console.log('CleanUp');
+  //     clearTimeout(clearTime);
+  //   };
+  // }, [enteredUsername, enteredPassword]);
+
   function handleUsernameChange(event) {
-    setEnteredUsername(event.target.value);
-    setValid(
-      event.target.value.includes('@') && enteredPassword.trim().length > 6
-    );
+    usernameDispatch({ type: 'USER_NAME', value: event.target.value });
+    setValid(event.target.value.includes('@') && passwordState.isValid);
   }
 
   function handlePasswordChange(event) {
-    setEnteredPassword(event.target.value);
-    setValid(
-      event.target.value.trim().length > 6 && enteredUsername.includes('@')
-    );
+    passwordDispatch({ type: 'PASSWORD', value: event.target.value });
+    setValid(usernameState.isValid && event.target.value.trim().length > 6);
   }
 
   function handleUsernameBlur() {
-    setUsernameIsValid(enteredUsername.includes('@'));
+    usernameDispatch({ type: 'USER_NAME_BLUR' });
   }
 
   function handlePasswordBlur() {
-    setPasswordIsValid(enteredPassword.trim().length > 6);
+    passwordDispatch({ type: 'PASSWORD_BLUR' });
   }
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    props.onLogin();
+    props.onLogin(usernameState.value, passwordState.value);
   }
 
   return (
@@ -42,7 +88,7 @@ export default function Login(props) {
       <form onSubmit={handleSubmit}>
         <div
           className={`input-control ${
-            usernameIsValid === false ? 'invalid' : ''
+            usernameState.isValid === false ? 'invalid' : ''
           }`}
         >
           <label htmlFor="username">Username</label>
@@ -50,14 +96,14 @@ export default function Login(props) {
             type="text"
             id="username"
             placeholder="example@email.com"
-            value={enteredUsername}
+            value={usernameState.value}
             onChange={handleUsernameChange}
             onBlur={handleUsernameBlur}
           />
         </div>
         <div
           className={`input-control ${
-            passwordIsValid === false ? 'invalid' : ''
+            passwordState.isValid === false ? 'invalid' : ''
           }`}
         >
           <label htmlFor="password">Password</label>
@@ -65,7 +111,7 @@ export default function Login(props) {
             type="password"
             id="password"
             placeholder="******"
-            value={enteredPassword}
+            value={passwordState.value}
             onChange={handlePasswordChange}
             onBlur={handlePasswordBlur}
           />

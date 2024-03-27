@@ -6,10 +6,12 @@ import Welcome from './Components/Welcome';
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  // //This will cause infinite render
-  // if (localStorage.getItem('loggedIn') === '1') {
-  //   setLoggedIn(true);
-  // }
+  /*
+  //This will cause infinite render
+  //Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
+  if (localStorage.getItem('loggedIn') === '1') {
+    setLoggedIn(true);
+  }*/
 
   //The abouve issue can be solved using useEffect hook.
   useEffect(() => {
@@ -20,12 +22,16 @@ export default function App() {
 
   function handleLogin(username, password) {
     localStorage.setItem('loggedIn', '1');
-    setLoggedIn(true);
+    setTimeout(() => {
+      setLoggedIn(true);
+    }, 1000);
   }
 
   function handleLogout() {
     localStorage.removeItem('loggedIn');
-    setLoggedIn(false);
+    setTimeout(() => {
+      setLoggedIn(false);
+    }, 1000);
   }
 
   return (
