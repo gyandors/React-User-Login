@@ -1,94 +1,79 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import Card from './UI/Card';
-import ErrorModal from './UI/ErrorModal';
 import './Login.css';
 
 export default function Login(props) {
+  const [enteredUsername, setEnteredUsername] = useState('');
+  const [enteredPassword, setEnteredPassword] = useState('');
+  const [usernameIsValid, setUsernameIsValid] = useState();
+  const [passwordIsValid, setPasswordIsValid] = useState();
   const [valid, setValid] = useState();
 
-  const username = useRef('');
-  const password = useRef('');
-  const college = useRef('');
-  const loginButton = useRef();
+  function handleUsernameChange(event) {
+    setEnteredUsername(event.target.value);
+    setValid(
+      event.target.value.includes('@') && enteredPassword.trim().length > 6
+    );
+  }
+
+  function handlePasswordChange(event) {
+    setEnteredPassword(event.target.value);
+    setValid(
+      event.target.value.trim().length > 6 && enteredUsername.includes('@')
+    );
+  }
+
+  function handleUsernameBlur() {
+    setUsernameIsValid(enteredUsername.includes('@'));
+  }
+
+  function handlePasswordBlur() {
+    setPasswordIsValid(enteredPassword.trim().length > 6);
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(loginButton);
-    const enteredUsername = username.current.value;
-    const enteredPassword = password.current.value;
-    const enteredCollege = college.current.value;
-    if (
-      enteredUsername.trim().length === 0 ||
-      enteredPassword.trim().length === 0 ||
-      enteredCollege.trim().length === 0
-    ) {
-      setValid({
-        title: 'Invalid input',
-        message: 'Please enter username and password',
-      });
-      return;
-    } else if (!enteredUsername.includes('@')) {
-      setValid({
-        title: 'Invalid username',
-        message: 'Username must be Email',
-      });
-      return;
-    } else if (enteredPassword.trim().length < 6) {
-      setValid({
-        title: 'Invalid password',
-        message: 'Length of password should be minimum 6',
-      });
-      return;
-    } else props.onLogin(enteredUsername, enteredPassword);
-  }
 
-  function handleValid() {
-    setValid();
+    props.onLogin();
   }
 
   return (
-    <>
-      {valid && (
-        <ErrorModal
-          title={valid.title}
-          message={valid.message}
-          onValid={handleValid}
-        />
-      )}
-      <Card className="login-form">
-        <form onSubmit={handleSubmit}>
-          <div className="username-control">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              placeholder="example@email.com"
-              ref={username}
-            />
-          </div>
-          <div className="password-control">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="******"
-              ref={password}
-            />
-          </div>
-          <div className="college-control">
-            <label htmlFor="college">College</label>
-            <input
-              type="text"
-              id="college"
-              placeholder="Collage name"
-              ref={college}
-            />
-          </div>
-          <button className="login-btn" type="submit" ref={loginButton}>
-            Login
-          </button>
-        </form>
-      </Card>
-    </>
+    <Card className="login-form">
+      <form onSubmit={handleSubmit}>
+        <div
+          className={`input-control ${
+            usernameIsValid === false ? 'invalid' : ''
+          }`}
+        >
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            placeholder="example@email.com"
+            value={enteredUsername}
+            onChange={handleUsernameChange}
+            onBlur={handleUsernameBlur}
+          />
+        </div>
+        <div
+          className={`input-control ${
+            passwordIsValid === false ? 'invalid' : ''
+          }`}
+        >
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="******"
+            value={enteredPassword}
+            onChange={handlePasswordChange}
+            onBlur={handlePasswordBlur}
+          />
+        </div>
+        <button className="login-btn" type="submit" disabled={!valid}>
+          Login
+        </button>
+      </form>
+    </Card>
   );
 }

@@ -2,7 +2,7 @@
   width: 30%;
   min-width: 401.5px;
   border-radius: 12px;
-  box-shadow: 1px 1px 9px #00224d;
+  box-shadow: 0px 0px 5px #00224d;
 }
 
 @media (max-width: 490px) {
