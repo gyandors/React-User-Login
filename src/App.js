@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Login from './Components/Login';
 import Navbar from './Components/Navbar';
 import Welcome from './Components/Welcome';
+import AuthContext from './Context/AuthContext';
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -36,8 +37,10 @@ export default function App() {
 
   return (
     <>
-      <Navbar showLinks={loggedIn} onLogout={handleLogout} />
-      {!loggedIn ? <Login onLogin={handleLogin} /> : <Welcome />}
+      <AuthContext.Provider value={{ loggedIn: loggedIn }}>
+        <Navbar onLogout={handleLogout} />
+        {!loggedIn ? <Login onLogin={handleLogin} /> : <Welcome />}
+      </AuthContext.Provider>
     </>
   );
 }

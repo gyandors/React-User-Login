@@ -1,36 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 //Using CSS Modules: The CSS inside a module is available only for the component that imported it,
 //and you do not have to worry about name conflicts.
 import style from './Navbar.module.css';
+import NavbarLinks from './NavbarLinks';
+import AuthContext from '../Context/AuthContext';
 
 export default function Navbar(props) {
-  function handleClick() {
-    props.onLogout();
-  }
+  //Using useContext instade of Context.Consumer
+  const ctx = useContext(AuthContext);
 
   return (
     <nav className={style.navbar}>
       <div className={style['navbar-logo']}>
         <span>Sample Login Page</span>
       </div>
-      {props.showLinks && (
-        <div className={style['navbar-links']}>
-          <li>
-            <button type="sumbit">Home</button>
-          </li>
-          <li>
-            <button type="sumbit">About</button>
-          </li>
-          <li>
-            <button type="sumbit">Contact</button>
-          </li>
-          <li>
-            <button type="sumbit" onClick={handleClick}>
-              Logout
-            </button>
-          </li>
-        </div>
-      )}
+      {ctx.loggedIn && <NavbarLinks onLogout={props.onLogout} />}
     </nav>
   );
+
+  //   // Using Context.Consumer instade of useContext hook
+  // return (
+  //   <AuthContext.Consumer>
+  //     {(ctx) => {
+  //       console.log(ctx);
+  //       return (
+  //         <nav className={style.navbar}>
+  //           <div className={style['navbar-logo']}>
+  //             <span>Sample Login Page</span>
+  //           </div>
+  //           {ctx.loggedIn && <NavbarLinks onLogout={props.onLogout} />}
+  //         </nav>
+  //       );
+  //     }}
+  //   </AuthContext.Consumer>
+  // );
 }
