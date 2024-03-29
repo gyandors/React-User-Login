@@ -5,7 +5,7 @@ import style from './Navbar.module.css';
 import NavbarLinks from './NavbarLinks';
 import AuthContext from '../Context/AuthContext';
 
-export default function Navbar(props) {
+export default function Navbar() {
   //Using useContext instade of Context.Consumer
   const ctx = useContext(AuthContext);
 
@@ -14,7 +14,7 @@ export default function Navbar(props) {
       <div className={style['navbar-logo']}>
         <span>Sample Login Page</span>
       </div>
-      {ctx.loggedIn && <NavbarLinks onLogout={props.onLogout} />}
+      {ctx.loggedIn && <NavbarLinks />}
     </nav>
   );
 

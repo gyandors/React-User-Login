@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import style from './Navbar.module.css';
+import AuthContext from '../Context/AuthContext';
 
 export default function NavbarLinks(props) {
+  const ctx = useContext(AuthContext);
+
   function handleClick() {
-    props.onLogout();
+    ctx.onLogout();
   }
 
   return (

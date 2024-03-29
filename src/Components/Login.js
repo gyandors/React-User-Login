@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 import Card from './UI/Card';
+import Input from './UI/Input';
 import './Login.css';
+import AuthContext from '../Context/AuthContext';
 
 function usernameReducer(state, action) {
   switch (action.type) {
@@ -29,6 +31,8 @@ function passwordReducer(state, action) {
 }
 
 export default function Login(props) {
+  const ctx = useContext(AuthContext);
+
   const [usernameState, usernameDispatch] = useReducer(usernameReducer, {
     value: '',
     isValid: null,
@@ -80,7 +84,7 @@ export default function Login(props) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    props.onLogin(usernameState.value, passwordState.value);
+    ctx.onLogin(usernameState.value, passwordState.value);
   }
 
   return (
@@ -92,7 +96,7 @@ export default function Login(props) {
           }`}
         >
           <label htmlFor="username">Username</label>
-          <input
+          <Input
             type="text"
             id="username"
             placeholder="example@email.com"
@@ -107,7 +111,7 @@ export default function Login(props) {
           }`}
         >
           <label htmlFor="password">Password</label>
-          <input
+          <Input
             type="password"
             id="password"
             placeholder="******"
